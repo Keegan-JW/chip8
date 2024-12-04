@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // Init graphics
+  // Init graphics - 20x scale
+  InitWindow(1280, 640, "Chip8");
 
   // Init chip8
   Chip8 *chip8 = init_chip8(chip8);
@@ -25,9 +26,19 @@ int main(int argc, char *argv[]) {
   fclose(rom);
   printf("ROM loaded and closed\n");
 
-  // chip8 cycle
-  uint16_t opcode = (chip8->memory[chip8->pc] << 8) | chip8->memory[chip8->pc + 1];
-  printf("0x%04X\n", opcode);
+  while (!WindowShouldClose()) {
+    // chip8 cycle
+    uint16_t opcode = (chip8->memory[chip8->pc] << 8) | chip8->memory[chip8->pc + 1];
+    printf("0x%04X\n", opcode);
+    chip8->pc += 2;
 
+    BeginDrawing();
+    // Draw screen
+    
+    ClearBackground(RAYWHITE);
+
+    EndDrawing();
+  }
+  CloseWindow();
   return 0;
 }
