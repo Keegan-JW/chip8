@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
   printf("ROM loaded and closed\n");
 
   // chip8 cycle
-  
+  uint16_t opcode = (chip8->memory[chip8->pc] << 8) | chip8->memory[chip8->pc + 1];
+  printf("0x%04X\n", opcode);
+
   return 0;
 }
