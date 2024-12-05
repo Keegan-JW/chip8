@@ -2,6 +2,16 @@
 #include "raylib.h"
 #include "chip8.h"
 
+void drawVideoBuffer(Chip8 *chip8) {
+  for (int row = 0; row < VIDEO_W; row++) {
+    for (int col = 0; col < VIDEO_H; col++) {
+      if (chip8->video[row][col]) {
+        DrawRectangle(row * 20, col * 20, 20, 20, WHITE);
+      }
+    }
+  }
+}
+
 int main(int argc, char *argv[]) {
   if (argc != 2) {
     fprintf(stderr, "Error: No ROM file given\n");
@@ -27,16 +37,11 @@ int main(int argc, char *argv[]) {
   printf("ROM loaded and closed\n");
 
   while (!WindowShouldClose()) {
-    // chip8 cycle
-    uint16_t opcode = (chip8->memory[chip8->pc] << 8) | chip8->memory[chip8->pc + 1];
-    printf("0x%04X\n", opcode);
-    chip8->pc += 2;
-
     BeginDrawing();
-    // Draw screen
-    
-    ClearBackground(RAYWHITE);
-
+    SetTargetFPS(30);
+    ClearBackground(BLACK);
+    fetchDecode(chip8);
+    drawVideoBuffer(chip8);
     EndDrawing();
   }
   CloseWindow();

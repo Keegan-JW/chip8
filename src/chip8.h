@@ -16,9 +16,11 @@ typedef struct {
   uint16_t pc;
   uint16_t stack[STACK_SIZE];
   uint8_t sp;
-  uint8_t video[VIDEO_W * VIDEO_H];
+  uint8_t video[VIDEO_W][VIDEO_H];
 } Chip8;
 
 Chip8* init_chip8(Chip8 *chip8);
+
+void fetchDecode(Chip8 *chip8);
 
 #endif
